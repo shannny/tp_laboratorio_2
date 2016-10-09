@@ -20,8 +20,8 @@ int menu()
 
     while(op<1||op>6)
     {
-       printf("\nIngrese una opcion entre 1 y 5: ");
-       scanf("%d",&op);
+        printf("\nIngrese una opcion entre 1 y 5: ");
+        scanf("%d",&op);
     }//validacion para que el usuario ingrese un numero correcto
     return op;
 }
@@ -112,6 +112,20 @@ void imprimir(EPersona per[])
             printf("%ld--%s--%d\n",per[i].dni,per[i].nombre, per[i].edad);
     }
 }
+int buscar(EPersona per[C], long int auxdni)
+{
+        int i, flag=0;
+
+    for(i=0;i<C;i++)
+    {
+        if(per[i].dni==auxdni)
+        {
+            flag=1;
+            break;
+        }
+    }
+    return flag;
+}//busca el dni y lo compara con el dni ingresado
 
 void bajas(EPersona per[])
 {
@@ -161,48 +175,61 @@ if(flag && rta=='s')
         printf("\nEse dni no existe.\n");
 }
 
+int libre(EPersona per[])
+{
+    int i,indice=-1;
+    for(i=0;i<C;i++)
+    {
+        if(per[i].estado==0)
+        {
+            indice=i;
+            break;
+        }
 
+    }
+    return indice;
+}//busca si hay espacio libre en la celda
 
 void grafico(EPersona per[])
 {
-int i,hasta18=0,de19y35=0,mayor35=0,mayor,flag=0;
+int i,c18=0,c19y35=0,cm35=0,mayor=0,flag=0;
 
     for(i=0;i<C;i++)
     {
         if(per[i].estado!=0)
         {
             if(per[i].edad<=18)
-                hasta18++;
+                c18++;
 
             else if(per[i].edad>18 && per[i].edad<=35)
-                de19y35++;
+                c19y35++;
 
             else
-                mayor35++;
+                cm35++;
         }
     }
 
-    if(hasta18>=de19y35 && hasta18>=mayor35)
-        mayor=hasta18;
+    if(c18>=c19y35 && c18>=cm35)
+        mayor=c18;
 
-    else if(de19y35>=hasta18 && de19y35>=mayor35)
-        mayor=de19y35;
+    else if(c19y35>=c18 && c19y35>=cm35)
+        mayor=c19y35;
 
     else
-        mayor=mayor35;
+        mayor=cm35;
 
     for(i=mayor;i>0;i--)
     {
-        if(hasta18>=mayor)
+        if(c18>=mayor)
             printf("*");
 
-        if(de19y35>=mayor)
+        if(c19y35>=mayor)
         {
             printf("\t*");
             flag=1;
         }
 
-        if(mayor35>=mayor)
+        if(cm35>=mayor)
         {
             if(flag==0)
                 printf("\t\t*");
@@ -216,4 +243,13 @@ int i,hasta18=0,de19y35=0,mayor35=0,mayor,flag=0;
     printf("< 18/19<>35/> 35");
 }
 
-
+void valtam(char x[], int tam)//validar nombre
+{
+    while(strlen(x)>tam-1)
+    {
+        printf("Error, reingrese una cadena que no exeda %d caracteres: ", tam-1);
+        fflush(stdin);
+        gets(x);
+    }
+}
+//desarrollo de las funciones
